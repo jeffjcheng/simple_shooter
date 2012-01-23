@@ -1,15 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent( typeof( Renderer ) )]
 public class BackgroundScroll : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+	public float offsetDelta = 0.01f;
+	private Material m;
 	
+	void Start() {
+		m = renderer.material;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void Update() {
+		m.mainTextureOffset += new Vector2( 0f, offsetDelta * Time.deltaTime );
 	}
 }
