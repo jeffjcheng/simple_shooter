@@ -30,7 +30,7 @@ public class BulletManager : MonoBehaviour {
 			inactive.Enqueue( b );
 		}
 		
-		StartCoroutine( first( ) );
+		DoCoroutine( BulletPatterns.Radial );
 	}
 	
 	void Update () {
