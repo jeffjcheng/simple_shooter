@@ -27,17 +27,29 @@ public class Player : MonoBehaviour {
 			break;
 			
 		case TouchPhase.Moved:
+		case TouchPhase.Stationary:
 			// [ -4.75, 4.75 ]
 			// [ -7.25, 6.75 ]
 			Vector2 delta = t.position - touchStart;
-			transform.position += (Vector3)delta.normalized * speed * Time.deltaTime;
+			Vector3 v3 = (Vector3)delta.normalized * speed * Time.deltaTime;
+			
+			if( transform.position.x < -4.75f ) {
+				v3.x = Mathf.Max( v3.x, 0f );
+			} else if( transform.position.x > 4.75f ) {
+				v3.x = Mathf.Min( v3.x, 0f );
+			}
+			
+			if( transform.position.y < -7.25f ) {
+				v3.y = Mathf.Max( v3.y, 0f );
+			} else if( transform.position.y > 6.75f ) {
+				v3.y = Mathf.Min( v3.y, 0f );
+			}
+			
+			transform.position += v3;
 			break;
 			
 		case TouchPhase.Canceled:
 		case TouchPhase.Ended:
-			break;
-			
-		case TouchPhase.Stationary:
 			break;
 		}
 	}
