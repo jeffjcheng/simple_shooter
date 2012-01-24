@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 535748935}
   - 114: {fileID: 535748936}
+  - 114: {fileID: 535748937}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -193,6 +194,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b6b92c34ed76545b812577cdf50adb, type: 1}
   m_Name: 
   bulletPrefab: {fileID: 100000, guid: 367e2b46afca0b648bda27e7867b8e13, type: 2}
+--- !u!114 &535748937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 535748934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62157778aad58642a9d85fd3336bd66, type: 1}
+  m_Name: 
 --- !u!1 &1131373706
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +212,8 @@ GameObject:
   serializedVersion: 3
   m_Component:
   - 4: {fileID: 1131373707}
+  - 114: {fileID: 1131373708}
+  - 114: {fileID: 1131373709}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -215,12 +228,33 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1131373706}
   m_LocalRotation: {x: 0.000000, y: 0.000000, z: 0.000000, w: 1.000000}
-  m_LocalPosition: {x: 0.000000, y: -5.000000, z: 0.000000}
+  m_LocalPosition: {x: 0.000000, y: -4.000000, z: 0.000000}
   m_LocalScale: {x: 1.000000, y: 1.000000, z: 1.000000}
   m_LocalEulerAnglesHint: {x: 0.000000, y: 0.000000, z: 0.000000}
   m_Children:
   - {fileID: 1363652922}
   m_Father: {fileID: 0}
+--- !u!114 &1131373708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1131373706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9c0f240e5d6f048a855f3abe080999, type: 1}
+  m_Name: 
+--- !u!114 &1131373709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1131373706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b6b92c34ed76545b812577cdf50adb, type: 1}
+  m_Name: 
+  bulletPrefab: {fileID: 100000, guid: a042fc423e11b734fbf5033b6cc2bd6c, type: 2}
 --- !u!1 &1363652921
 GameObject:
   m_ObjectHideFlags: 0
