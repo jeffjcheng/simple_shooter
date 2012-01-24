@@ -28,8 +28,6 @@ public class Player : MonoBehaviour {
 			
 		case TouchPhase.Moved:
 		case TouchPhase.Stationary:
-			// [ -4.75, 4.75 ]
-			// [ -7.25, 6.75 ]
 			Vector2 delta = t.position - touchStart;
 			Vector3 v3 = (Vector3)delta.normalized * speed * Time.deltaTime;
 			
