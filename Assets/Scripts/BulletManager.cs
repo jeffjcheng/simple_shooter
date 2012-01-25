@@ -7,7 +7,6 @@ public class BulletManager : MonoBehaviour {
 	private List<Bullet> bullets;
 	private Queue<Bullet> inactive;
 	private Transform myBullets;
-	private int aaa;
 	
 	public Vector3 position {
 		get { return transform.position; }
@@ -20,7 +19,6 @@ public class BulletManager : MonoBehaviour {
 	}
 	
 	void Update () {
-		aaa = inactive.Count;
 		Bullet[] b = bullets.ToArray();
 		for( int a = 0 ; a < b.Length ; a++ ) {
 			b[a].Tick();

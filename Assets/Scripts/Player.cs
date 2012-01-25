@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
 		switch( t.phase ) {
 		case TouchPhase.Began:
 			touchStart = t.position;
-			joystick.position = Camera.main.ScreenToWorldPoint( (Vector3)t.position );
+			joystick.position = GetWorldPosFromTouch( touchStart );
 			joystick.renderer.enabled = true;
 			break;
 			
@@ -68,5 +68,20 @@ public class Player : MonoBehaviour {
 			b.SetPosition( transform.position );
 			b.SetVelocity( Vector3.up * 15f );
 		}
+	}
+	
+	Vector3 GetWorldPosFromTouch( Vector2 v2 ) {
+		Vector3 pos = (Vector3)v2;
+		pos.z = 5f;
+		
+		pos.x /= Screen.width;
+		pos.x *= 10f;
+		pos.x -= 5f;
+		
+		pos.y /= Screen.height;
+		pos.y *= 15f;
+		pos.y -= 7.5f;
+		
+		return pos;
 	}
 }
