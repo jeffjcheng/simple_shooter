@@ -6,6 +6,10 @@ public class Bullet {
 	private Transform transform;
 	private Vector3 velocity = Vector3.zero;
 	
+	public Vector3 position {
+		get { return transform.position; }
+	}
+	
 	public Bullet( Transform t, BulletManager manager ) {
 		transform = t;
 		this.manager = manager;

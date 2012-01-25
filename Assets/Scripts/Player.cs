@@ -3,15 +3,18 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	private float speed = 5f;
-	
 	private Vector2 touchStart = Vector2.zero;
 	
 	private BulletManager manager;
 	
+	public Vector3 position {
+		get { return transform.position; }
+	}
+	
 	void Start() {
 		manager = GetComponent<BulletManager>();
 		
-		manager.DoCoroutine( PlayerShots );
+		manager.StartCoroutine( PlayerShots() );
 	}
 	
 	void Update() {
@@ -52,10 +55,10 @@ public class Player : MonoBehaviour {
 		}
 	}
 	
-	IEnumerator PlayerShots( BulletManager mgr, params object[] o ) {
+	IEnumerator PlayerShots() {
 		while( true ) {
 			yield return new WaitForSeconds( 0.125f );
-			Bullet b = mgr.GetBullet();
+			Bullet b = manager.GetBullet();
 			b.SetPosition( transform.position );
 			b.SetVelocity( Vector3.up * 15f );
 		}
