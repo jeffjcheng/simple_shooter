@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour {
+	public Transform joystick;
+	
 	private float speed = 5f;
 	private Vector2 touchStart = Vector2.zero;
 	
@@ -27,12 +29,15 @@ public class Player : MonoBehaviour {
 		switch( t.phase ) {
 		case TouchPhase.Began:
 			touchStart = t.position;
+			joystick.position = Camera.main.ScreenToWorldPoint( (Vector3)t.position );
+			joystick.renderer.enabled = true;
 			break;
 			
 		case TouchPhase.Moved:
 		case TouchPhase.Stationary:
 			Vector2 delta = t.position - touchStart;
 			Vector3 v3 = (Vector3)delta.normalized * speed * Time.deltaTime;
+			joystick.localEulerAngles = new Vector3( 0f, 0f, Mathf.Atan2( delta.y, delta.x ) * 180f / Mathf.PI - 90f );
 			
 			if( transform.position.x < -4.75f ) {
 				v3.x = Mathf.Max( v3.x, 0f );
@@ -51,6 +56,7 @@ public class Player : MonoBehaviour {
 			
 		case TouchPhase.Canceled:
 		case TouchPhase.Ended:
+			joystick.renderer.enabled = false;
 			break;
 		}
 	}
