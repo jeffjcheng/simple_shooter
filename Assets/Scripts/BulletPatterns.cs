@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class BulletPatterns {
 	public static IEnumerator ToPlayer( BulletManager mgr, Player p ) {
-		float rof = 3f;
+		float rof = 1.25f;
 		while( true ) {
 			yield return new WaitForSeconds( rof );
 			Vector3 dir = p.position - mgr.position;
@@ -39,13 +39,61 @@ public static class BulletPatterns {
 		}
 	}
 	
-	public static IEnumerator Stop( Bullet b ) {
+	static IEnumerator Stop( Bullet b ) { // radial helper
 		yield return new WaitForSeconds( 1f );
 		b.SetVelocity( Vector3.zero );
 	}
 	
-	public static IEnumerator SeekPlayer( Bullet b, Player p ) {
-		yield return new WaitForSeconds( 3f );
-		b.SetVelocity( (p.position - b.position).normalized * 7.5f );
+	static IEnumerator SeekPlayer( Bullet b, Player p ) { // radial helper
+		yield return new WaitForSeconds( 2.5f );
+		b.SetVelocity( (p.position - b.position).normalized * 15f );
+	}
+	
+	public static IEnumerator Circle( BulletManager manager ) {
+		float rof = 3.5f;
+		while( true ) {
+			yield return new WaitForSeconds( rof );
+			
+			float progress = 0f;
+			while( progress < 1f ) {
+				float angle = Mathf.PI*2f*(progress+0.046875f);
+				
+				Bullet b = manager.GetBullet();
+				b.SetVelocity( new Vector3( Mathf.Cos( angle ), Mathf.Sin( angle ) ) * 7.5f );
+				b.SetPosition( manager.position );
+				
+				progress += 0.03125f;
+			}
+		}
+	}
+	
+	public static IEnumerator Ripple( BulletManager mgr ) {
+		float rof = 0.75f;
+		while( true ) {
+			yield return new WaitForSeconds( rof );
+			
+			float diff = 0f;
+			while( diff <= 0.5f ) {
+				float angle = -Mathf.PI*2f*(diff);
+				
+				Bullet b = mgr.GetBullet();
+				b.SetVelocity( new Vector3( Mathf.Cos( angle ), Mathf.Sin( angle ) ) * 5f );
+				b.SetPosition( mgr.position );
+				
+				diff += 0.0625f;
+			}
+			
+			yield return new WaitForSeconds( rof );
+			diff = 0f;
+			while( diff <= 0.5f ) {
+				float angle = -Mathf.PI*2f*(diff+0.03125f);
+				
+				Bullet b = mgr.GetBullet();
+				b.SetVelocity( new Vector3( Mathf.Cos( angle ), Mathf.Sin( angle ) ) * 5f );
+				b.SetPosition( mgr.position );
+				
+				diff += 0.0625f;
+			}
+		}
 	}
 }

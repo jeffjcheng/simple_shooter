@@ -9,11 +9,17 @@ public class Enemy : MonoBehaviour {
 		plr = GameObject.Find( "Player" ).GetComponent<Player>();
 		manager = GetComponent<BulletManager>();
 		
-		manager.StartCoroutine( BulletPatterns.ToPlayer( manager, plr ) );
-		manager.StartCoroutine( BulletPatterns.Radial( manager, plr ) );
+		StartCoroutine( Attack() );
 	}
 	
-	void Update() {
-		
+	
+	IEnumerator Attack() {
+		manager.StartCoroutine( BulletPatterns.ToPlayer( manager, plr ) );
+		yield return new WaitForSeconds( 2f );
+		manager.StartCoroutine( BulletPatterns.Circle( manager ) );
+		yield return new WaitForSeconds( 2f );
+		manager.StartCoroutine( BulletPatterns.Ripple( manager ) );
+		yield return new WaitForSeconds( 2f );
+		manager.StartCoroutine( BulletPatterns.Radial( manager, plr ) );
 	}
 }
