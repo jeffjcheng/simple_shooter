@@ -3,25 +3,38 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	public Transform joystick;
+	public GUIText scoreGUI;
 	
 	private float speed = 5f;
 	private Vector2 touchStart = Vector2.zero;
 	
 	private BulletManager manager;
 	
+	private int score = 0;
+	
 	public Vector3 position {
 		get { return transform.position; }
 	}
 	
 	void Start() {
+		GameObject.Find( "HighScore" ).guiText.text = "High Score : "+PlayerPrefs.GetInt( "highscore", 0 );
 		manager = GetComponent<BulletManager>();
 		
 		manager.StartCoroutine( PlayerShots() );
+		StartCoroutine( ScorePulse() );
 	}
 	
 	void Update() {
 		if( Input.touches.Length > 0 ) {
 			ProcessTouch( Input.GetTouch( 0 ) );
+		}
+	}
+	
+	IEnumerator ScorePulse() {
+		while( true ) {
+			yield return new WaitForSeconds( 1f );
+			score += 10;
+			scoreGUI.text = "Score : "+score;
 		}
 	}
 	
@@ -83,5 +96,26 @@ public class Player : MonoBehaviour {
 		pos.y -= 7.5f;
 		
 		return pos;
+	}
+	
+	void OnCollisionEnter( Collision c ) {
+		this.StopAllCoroutines();
+		ParticleSystem explosion = GameObject.Find( "Explosion" ).GetComponent<ParticleSystem>();
+		explosion.transform.position = transform.position;
+		explosion.Play();
+		transform.position = new Vector3( 0f, -100f, 0f );
+		this.enabled = false;
+		
+		if( score > PlayerPrefs.GetInt( "highscore", 0 ) ) {
+			PlayerPrefs.SetInt( "highscore", score );
+		}
+		
+		GameObject.Find( "HighScore" ).guiText.text = "High Score : "+PlayerPrefs.GetInt( "highscore" );
+		StartCoroutine( Restart() );
+	}
+	
+	IEnumerator Restart() {
+		yield return new WaitForSeconds( 5f );
+		Application.LoadLevel( Application.loadedLevel );
 	}
 }
