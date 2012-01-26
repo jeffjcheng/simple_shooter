@@ -24,11 +24,12 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	void OnPlayerDeath() {
-		GameObject.Find( "Respawn" ).guiText.enabled = true;
 		StartCoroutine( WaitForRespawnInput() );
 	}
 	
 	IEnumerator WaitForRespawnInput() {
+		yield return new WaitForSeconds( 1.5f );
+		GameObject.Find( "Respawn" ).guiText.enabled = true;
 		bool receivedInput = false;
 		while( !receivedInput ) {
 			yield return null;
