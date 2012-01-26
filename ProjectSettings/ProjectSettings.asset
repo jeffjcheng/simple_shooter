@@ -6,12 +6,12 @@ PlayerSettings:
   serializedVersion: 2
   AndroidProfiler: 0
   defaultScreenOrientation: 0
-  targetDevice: 2
+  targetDevice: 0
   targetPlatform: 1
   targetResolution: 0
   accelerometerFrequency: 60
   companyName: Jeff
-  productName: SimpleShooter
+  productName: MyShooter
   AndroidLicensePublicKey: 
   defaultScreenWidth: 640
   defaultScreenHeight: 960
@@ -65,7 +65,7 @@ PlayerSettings:
   aotOptions: 
   apiCompatibilityLevel: 2
   iPhoneStrippingLevel: 0
-  iPhoneScriptCallOptimization: 0
+  iPhoneScriptCallOptimization: 1
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0
@@ -107,7 +107,7 @@ PlayerSettings:
   wiiFloatingPointExceptions: 0
   wiiScreenCrashDumps: 1
   wiiMemoryLabelCount: 147
-  wiiMemorySetup: 5effbee7ffffff75f70100000000000000000000
+  wiiMemorySetup: 5effbee7ffffff61f50100000000000000000000
   XboxTitleId: 
   XboxImageXexPath: 
   XboxSpaPath: 

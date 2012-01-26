@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour {
 		yield return new WaitForSeconds( 2f );
 		manager.StartCoroutine( BulletPatterns.Circle( manager ) );
 		yield return new WaitForSeconds( 2f );
+		manager.StartCoroutine( BulletPatterns.Burst( manager, plr ) );
+		yield return new WaitForSeconds( 2f );
 		manager.StartCoroutine( BulletPatterns.Ripple( manager ) );
 		yield return new WaitForSeconds( 2f );
 		manager.StartCoroutine( BulletPatterns.Radial( manager, plr ) );

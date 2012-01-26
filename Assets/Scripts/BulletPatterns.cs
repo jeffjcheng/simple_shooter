@@ -20,8 +20,6 @@ public static class BulletPatterns {
 		while( true ) {
 			yield return new WaitForSeconds( rof );
 			
-			List<Bullet> bullets = new List<Bullet>();
-			
 			float time = 0f;
 			while( time < 1f ) {
 				float angle = -Mathf.PI*2f*(time-0.25f) + Random.value*Mathf.PI/8f;
@@ -93,6 +91,34 @@ public static class BulletPatterns {
 				b.SetPosition( mgr.position );
 				
 				diff += 0.0625f;
+			}
+		}
+	}
+	
+	public static IEnumerator Burst( BulletManager mgr, Player plr ) {
+		float rof = 1.75f;
+		while( true ) {
+			yield return new WaitForSeconds( rof );
+			
+			for( int a = 0 ; a < 5 ; a++ ) {
+				Vector3 dir = plr.position - mgr.position;
+				dir.Normalize();
+				
+				Bullet b = mgr.GetBullet();
+				b.SetPosition( mgr.position );
+				b.SetVelocity( dir * 10f );
+				
+				float angle = Mathf.Atan2( dir.y, dir.x );
+				
+				b = mgr.GetBullet();
+				b.SetPosition( mgr.position );
+				b.SetVelocity( new Vector3( Mathf.Cos( angle+Mathf.PI/4f ), Mathf.Sin( angle+Mathf.PI/4f ) ) );
+				
+				b = mgr.GetBullet();
+				b.SetPosition( mgr.position );
+				b.SetVelocity( new Vector3( Mathf.Cos( angle-Mathf.PI/4f ), Mathf.Sin( angle-Mathf.PI/4f ) ) );
+				
+				yield return new WaitForSeconds( 0.125f );
 			}
 		}
 	}

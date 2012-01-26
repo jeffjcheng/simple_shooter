@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour {
+	public delegate void PlayerDeathEvent();
+	public static event PlayerDeathEvent OnPlayerDeath;
 	public Transform joystick;
 	public GUIText scoreGUI;
 	
@@ -17,7 +19,6 @@ public class Player : MonoBehaviour {
 	}
 	
 	void Start() {
-		GameObject.Find( "HighScore" ).guiText.text = "High Score : "+PlayerPrefs.GetInt( "highscore", 0 );
 		manager = GetComponent<BulletManager>();
 		
 		manager.StartCoroutine( PlayerShots() );
@@ -111,11 +112,8 @@ public class Player : MonoBehaviour {
 		}
 		
 		GameObject.Find( "HighScore" ).guiText.text = "High Score : "+PlayerPrefs.GetInt( "highscore" );
-		StartCoroutine( Restart() );
-	}
-	
-	IEnumerator Restart() {
-		yield return new WaitForSeconds( 5f );
-		Application.LoadLevel( Application.loadedLevel );
+		
+		if( OnPlayerDeath != null ) OnPlayerDeath();
+		OnPlayerDeath = null;
 	}
 }
