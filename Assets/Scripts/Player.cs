@@ -14,23 +14,41 @@ public class Player : MonoBehaviour {
 	
 	private int score = 0;
 	
+	private Transform tr;
+	
+	private Vector3 targetPos;
+	
 	public Vector3 position {
-		get { return transform.position; }
+		get { return tr.position; }
 	}
 	
 	void Start() {
+		tr = transform;
+		
 		manager = GetComponent<BulletManager>();
 		
 		manager.StartCoroutine( PlayerShots() );
 		StartCoroutine( ScorePulse() );
 		
 		Enemy.OnEnemyHit += () => score++;
+		
+		targetPos = tr.position;
 	}
 	
 	void Update() {
 		if( Input.touches.Length > 0 ) {
-			ProcessTouch( Input.GetTouch( 0 ) );
+//			ProcessTouch( Input.GetTouch( 0 ) );
+			
+			if( Input.touches[0].phase == TouchPhase.Began ) {
+				targetPos = GetWorldPosFromTouch( Input.touches[0].position, 0f );
+			}
 		}
+		
+		Vector3 dir = targetPos - tr.position;
+		if( dir.sqrMagnitude < 0.0625f ) return;
+		
+		dir.Normalize();
+		tr.position += dir * speed * Time.deltaTime;
 	}
 	
 	IEnumerator ScorePulse() {
@@ -55,19 +73,19 @@ public class Player : MonoBehaviour {
 			Vector3 v3 = (Vector3)delta.normalized * speed * Time.deltaTime;
 			joystick.localEulerAngles = new Vector3( 0f, 0f, Mathf.Atan2( delta.y, delta.x ) * 180f / Mathf.PI - 90f );
 			
-			if( transform.position.x < -4.75f ) {
+			if( tr.position.x < -4.75f ) {
 				v3.x = Mathf.Max( v3.x, 0f );
-			} else if( transform.position.x > 4.75f ) {
+			} else if( tr.position.x > 4.75f ) {
 				v3.x = Mathf.Min( v3.x, 0f );
 			}
 			
-			if( transform.position.y < -7.25f ) {
+			if( tr.position.y < -7.25f ) {
 				v3.y = Mathf.Max( v3.y, 0f );
-			} else if( transform.position.y > 6.75f ) {
+			} else if( tr.position.y > 6.75f ) {
 				v3.y = Mathf.Min( v3.y, 0f );
 			}
 			
-			transform.position += v3;
+			tr.position += v3;
 			break;
 			
 		case TouchPhase.Canceled:
@@ -81,14 +99,14 @@ public class Player : MonoBehaviour {
 		while( true ) {
 			yield return new WaitForSeconds( 0.125f );
 			Bullet b = manager.GetBullet();
-			b.SetPosition( transform.position );
+			b.SetPosition( tr.position );
 			b.SetVelocity( Vector3.up * 15f );
 		}
 	}
 	
-	Vector3 GetWorldPosFromTouch( Vector2 v2 ) {
+	Vector3 GetWorldPosFromTouch( Vector2 v2, float zdepth = 5f ) {
 		Vector3 pos = (Vector3)v2;
-		pos.z = 5f;
+		pos.z = zdepth;
 		
 		pos.x /= Screen.width;
 		pos.x *= 10f;
@@ -104,9 +122,9 @@ public class Player : MonoBehaviour {
 	void OnCollisionEnter( Collision c ) {
 		this.StopAllCoroutines();
 		ParticleSystem explosion = GameObject.Find( "Explosion" ).GetComponent<ParticleSystem>();
-		explosion.transform.position = transform.position;
+		explosion.transform.position = tr.position;
 		explosion.Play();
-		transform.position = new Vector3( 0f, -100f, 0f );
+		tr.position = new Vector3( 0f, -100f, 0f );
 		this.enabled = false;
 		
 		if( score > PlayerPrefs.GetInt( "highscore", 0 ) ) {
