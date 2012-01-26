@@ -112,11 +112,11 @@ public static class BulletPatterns {
 				
 				b = mgr.GetBullet();
 				b.SetPosition( mgr.position );
-				b.SetVelocity( new Vector3( Mathf.Cos( angle+Mathf.PI/4f ), Mathf.Sin( angle+Mathf.PI/4f ) ) );
+				b.SetVelocity( new Vector3( Mathf.Cos( angle+Mathf.PI/16f ), Mathf.Sin( angle+Mathf.PI/16f ) ) * 10f );
 				
 				b = mgr.GetBullet();
 				b.SetPosition( mgr.position );
-				b.SetVelocity( new Vector3( Mathf.Cos( angle-Mathf.PI/4f ), Mathf.Sin( angle-Mathf.PI/4f ) ) );
+				b.SetVelocity( new Vector3( Mathf.Cos( angle-Mathf.PI/16f ), Mathf.Sin( angle-Mathf.PI/16f ) ) * 10f );
 				
 				yield return new WaitForSeconds( 0.125f );
 			}
