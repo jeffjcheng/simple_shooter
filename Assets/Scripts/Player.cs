@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
 		
 		manager.StartCoroutine( PlayerShots() );
 		StartCoroutine( ScorePulse() );
+		
+		Enemy.OnEnemyHit += () => score++;
 	}
 	
 	void Update() {

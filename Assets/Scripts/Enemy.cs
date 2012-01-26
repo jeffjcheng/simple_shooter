@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
+	public delegate void EnemyHitDelegate();
+	public static event EnemyHitDelegate OnEnemyHit;
+	
 	private Player plr;
 	private BulletManager manager;
 	
@@ -23,5 +26,14 @@ public class Enemy : MonoBehaviour {
 		manager.StartCoroutine( BulletPatterns.Ripple( manager ) );
 		yield return new WaitForSeconds( 2f );
 		manager.StartCoroutine( BulletPatterns.Radial( manager, plr ) );
+	}
+	
+	void OnCollisionEnter( Collision c ) {
+		c.gameObject.transform.position = Vector3.one * 99f;
+		if( OnEnemyHit != null ) OnEnemyHit();
+	}
+	
+	void OnDestroy() {
+		OnEnemyHit = null;
 	}
 }
